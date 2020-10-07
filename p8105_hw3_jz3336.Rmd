@@ -86,7 +86,8 @@ instacart %>%
   pivot_wider(
     names_from = order_dow,
     values_from = mean_hour
-  )
+  ) %>% 
+   knitr::kable()
 ```
 
 ## Problem 2
@@ -113,11 +114,27 @@ accelerometer_df =
     Wednesday = "weekday",
     Tuesday = "weekday",
     Monday = "weekday"),
-    weekday_vs_weekend = factor(weekday_vs_weekend)) %>% 
+    weekday_vs_weekend = factor(weekday_vs_weekend),
+    day = factor(day)) %>% 
   relocate(weekday_vs_weekend, .after = day)
 ```
 
 The resulting dataset has `r nrow(accelerometer_df)` rows and `r ncol(accelerometer_df)` columns. There are `r ncol(accelerometer_df)` variables, where the "week" "day_id" ""day" variables are retained from the original dataset. Every 1440 observations is a day, and there are `r nrow(accelerometer_df)/1440` days in total record by the dataset. The new factor variable "weekday_vs_weekend" separate the observations into two categories: weekday and weekend. The "minute_of_the_day" and "activity_count" variables store the collected information of the original activity1-1440. For each day, "minute_of_the_day" will count from the 1st minute to the last 1440th minute then repeat from 1 as the next day start. At the same time, activity_count record the activity count of each corresponding minute.
+
+2. Traditional analyses of accelerometer data focus on the total activity over the day. Using your tidied dataset, aggregate across minutes to create a total activity variable for each day, and create a table showing these totals. Are any trends apparent?
+
+```{r}
+accelerometer_df %>% 
+  group_by(week, day) %>% 
+  summarize(total_activity = sum(activity_count)) %>% 
+ pivot_wider(
+   names_from = week,
+   values_from = total_activity
+   ) 
+```
+
+There is no prominent increasing or decreasing trend in total activity count through out each week and across the 5 weeks. However, the variation of the total activity over the day is much smaller on Thursdays, Tuesdays, Wednesdays.if compare the total activity count across the 5 Fridays, Mondays, Saturdays, and Sundays, the variation is vary large.
+
 
 
 
