@@ -106,16 +106,14 @@ accelerometer_df =
   ) %>% 
   mutate(
     weekday_vs_weekend = 
-      recode(day,
-    Sunday = "weekend",
-    Saturday = "weekend",
-    Friday = "weekday",
-    Thursday = "weekday",
-    Wednesday = "weekday",
-    Tuesday = "weekday",
-    Monday = "weekday"),
-    weekday_vs_weekend = factor(weekday_vs_weekend),
-    day = factor(day)) %>% 
+      case_when(
+        day %in% c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday") ~ "weekday",
+        day %in% c("Saturday", "Sunday") ~ "weekend"
+      )) %>% 
+    mutate(
+      week = factor(week),
+      day = factor(day, levels = c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"))
+    ) %>% 
   relocate(weekday_vs_weekend, .after = day)
 ```
 
@@ -133,7 +131,22 @@ accelerometer_df %>%
    ) 
 ```
 
-There is no prominent increasing or decreasing trend in total activity count through out each week and across the 5 weeks. However, the variation of the total activity over the day is much smaller on Thursdays, Tuesdays, Wednesdays.if compare the total activity count across the 5 Fridays, Mondays, Saturdays, and Sundays, the variation is vary large.
+There is no prominent increasing or decreasing trend in total activity count through out each week and across the 5 weeks. However, the variation of the total activity over the day is much smaller on Thursdays, Tuesdays, Wednesdays.if compare the total activity count across the 5 Fridays, Mondays, Saturdays, and Sundays, the variation is vary large. Furthermore, during the week 4 adn week 5 on Saturday,only the baseline activity counts 1440 have been shown. This imply that the either the patient forget to wear the device for the day or  there have been malfunction.
+
+3. Accelerometer data allows the inspection activity over the course of the day. Make a single-panel plot that shows the 24-hour activity time courses for each day and use color to indicate day of the week. Describe in words any patterns or conclusions you can make based on this graph.
+
+```{r}
+accelerometer_df %>% 
+  group_by(week, day) %>% 
+  ggplot(aes(x = minute_of_the_day, y = activity_count, color = day)) +
+  geom_line() +
+  scale_x_discrete(
+    breaks = c(180,360,540,720,900,1080,1260,1440),
+    labels = c("3h","6h", "9h", "12h", "15h", "18h", "21h", "24h")
+  )
+```
+
+
 
 
 
