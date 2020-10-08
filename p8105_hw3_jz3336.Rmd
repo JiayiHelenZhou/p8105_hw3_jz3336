@@ -185,7 +185,17 @@ For snowfall, the most commonly observed values was 0 since we counted the most 
 **2. Make a two-panel plot showing the average max temperature in January and in July in each station across years. Is there any observable / interpretable structure? Any outliers?**
 
 ```{r}
-ny_noaa_df
+ny_noaa_df %>% 
+  filter(month %in% c("01", "07")) %>% 
+  group_by(id, year, month) %>% 
+  summarize(
+    mean_tmax = mean(tmax, na.rm = TRUE)
+  ) %>% 
+  ggplot(aes(x = year, y = mean_tmax,group = id))+
+  geom_point() +
+  geom_path() +
+  facet_grid(.~month) +
+  theme(axis.text.x = element_text(angle = 270,  vjust = 0.5,  hjust = 1))
 ```
 
 
