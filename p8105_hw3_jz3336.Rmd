@@ -111,6 +111,7 @@ accelerometer_df =
         day %in% c("Saturday", "Sunday") ~ "weekend"
       )) %>% 
     mutate(
+      minute_of_the_day = as.integer(minute_of_the_day),
       week = factor(week),
       day = factor(day, levels = c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"))
     ) %>% 
@@ -146,8 +147,41 @@ accelerometer_df %>%
   )
 ```
 
+## Problem 3
+
+```{r}
+data("ny_noaa")
+```
+
+This dataset contain `r nrow(ny_noaa)` rows and `r ncol(ny_noaa)` columns.
+Each observation is defined by 7 variables:
+id is the weather station ID. date is the date of observation. prcp is precipitation with unit tenth of mm. snow is the snowfall in mm. snwd is the snow depth in mm. tmax is maximum temperature in tenth of degree C, and tmin is the minimum temperature in tenth of degree C. 
 
 
+1. Do some data cleaning. Create separate variables for year, month, and day. Ensure observations for temperature, precipitation, and snowfall are given in reasonable units. For snowfall, what are the most commonly observed values? Why?
+
+```{r}
+ny_noaa_df = 
+  ny_noaa %>% 
+  separate(date, into = c("year", "month", "day"), sep = "-") %>% 
+  mutate(
+    tmax = as.numeric(tmax),
+    tmin = as.numeric(tmin),
+    tmax = tmax / 10,
+    tmin = tmin / 10,
+    prcp = prcp / 10
+    )
+
+ny_noaa_df %>% 
+  count(snwd) %>% 
+  arrange(desc(n))
+```
+
+2. Make a two-panel plot showing the average max temperature in January and in July in each station across years. Is there any observable / interpretable structure? Any outliers?
+
+```{r}
+
+```
 
 
 
