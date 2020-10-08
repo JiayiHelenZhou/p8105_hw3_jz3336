@@ -129,7 +129,8 @@ accelerometer_df %>%
  pivot_wider(
    names_from = week,
    values_from = total_activity
-   ) 
+   ) %>% 
+  knitr::kable()
 ```
 
 There is no prominent increasing or decreasing trend in total activity count through out each week and across the 5 weeks. However, the variation of the total activity over the day is much smaller on Thursdays, Tuesdays, Wednesdays.if compare the total activity count across the 5 Fridays, Mondays, Saturdays, and Sundays, the variation is vary large. Furthermore, during the week 4 adn week 5 on Saturday,only the baseline activity counts 1440 have been shown. This imply that the either the patient forget to wear the device for the day or  there have been malfunction.
@@ -198,6 +199,30 @@ ny_noaa_df %>%
   theme(axis.text.x = element_text(angle = 270,  vjust = 0.5,  hjust = 1))
 ```
 
+
+**Make a two-panel plot showing (i) tmax vs tmin for the full dataset (note that a scatterplot may not be the best option); and (ii) make a plot showing the distribution of snowfall values greater than 0 and less than 100 separately by year.**
+1. 
+
+```{r}
+library(patchwork)
+```
+
+```{r}
+tmax_vs_tmin = 
+  ny_noaa_df %>% 
+  ggplot(aes(x = tmax, y = tmin)) +
+  geom_hex()
+
+dist_snowfall = 
+  ny_noaa_df %>% 
+  filter(snow < 100) %>% 
+  filter(snow > 0) %>% 
+  ggplot(aes(x = year, y = snow)) +
+  geom_boxplot() +
+  theme(axis.text.x = element_text(angle = 270,  vjust = 0.5,  hjust = 1))
+
+tmax_vs_tmin + dist_snowfall
+```
 
 
 
