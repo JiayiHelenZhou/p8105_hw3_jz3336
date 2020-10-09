@@ -142,7 +142,6 @@ accelerometer_df %>%
   group_by(week, day) %>% 
   ggplot(aes(x = minute_of_the_day, y = activity_count, color = day)) +
   geom_line(alpha = .5) +
-  geom_smooth()
 ##  scale_x_discrete(
 ##    breaks = c(180,360,540,720,900,1080,1260,1440),
 ##   labels = c("3h","6h", "9h", "12h", "15h", "18h", "21h", "24h")
@@ -204,7 +203,7 @@ ny_noaa_df %>%
 
 From the plot, there is a increasing trend in the average maximum temperature in January across the years. This increase may be an indicator of global warming. Furthermore, there are several outliers in the January plot in 1982,2004 that show much lower average maximum temperature compare to the other years. For July, in year 1988 there is a outlier showing an average maximum temperature that is lower than any other years.
 
-**Make a two-panel plot showing (i) tmax vs tmin for the full dataset (note that a scatterplot may not be the best option); and (ii) make a plot showing the distribution of snowfall values greater than 0 and less than 100 separately by year.**
+**3. Make a two-panel plot showing (i) tmax vs tmin for the full dataset (note that a scatterplot may not be the best option); and (ii) make a plot showing the distribution of snowfall values greater than 0 and less than 100 separately by year.**
 
 ```{r}
 library(patchwork)
