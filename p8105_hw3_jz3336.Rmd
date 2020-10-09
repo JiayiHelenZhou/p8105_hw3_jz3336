@@ -139,13 +139,8 @@ There is no prominent increasing or decreasing trend in total activity count thr
 
 ```{r}
 accelerometer_df %>% 
-  group_by(week, day) %>% 
   ggplot(aes(x = minute_of_the_day, y = activity_count, color = day)) +
   geom_line(alpha = .5) +
-##  scale_x_discrete(
-##    breaks = c(180,360,540,720,900,1080,1260,1440),
-##   labels = c("3h","6h", "9h", "12h", "15h", "18h", "21h", "24h")
-##  ) +
   theme(axis.text.x = element_text(angle = 270,  vjust = 0.5,  hjust = 1))
 ```
 
