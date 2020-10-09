@@ -190,7 +190,7 @@ ny_noaa_df %>%
     mean_tmax = mean(tmax, na.rm = TRUE)
   ) %>% 
   ggplot(aes(x = year, y = mean_tmax,group = id))+
-  geom_point(alpha = .5) +
+  geom_point(alpha = .5, size = .5) +
   geom_path() +
   facet_grid(.~month) +
   theme(axis.text.x = element_text(angle = 270,  vjust = 0.5,  hjust = 1))
@@ -215,7 +215,7 @@ dist_snowfall =
   filter(snow < 100) %>% 
   filter(snow > 0) %>% 
   ggplot(aes(x = year, y = snow)) +
-  geom_boxplot() +
+  geom_violin(alpha = .5) +
   theme(axis.text.x = element_text(angle = 270,  vjust = 0.5,  hjust = 1))
 
 tmax_vs_tmin + dist_snowfall
